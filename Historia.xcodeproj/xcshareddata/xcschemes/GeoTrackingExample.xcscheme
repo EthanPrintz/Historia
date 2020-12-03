@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
    LastUpgradeVersion = "1200"
-   version = "1.7">
+   version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E16665F023F6986F001B415F"
-               BuildableName = "GeoTrackingExample.app"
-               BlueprintName = "GeoTrackingExample"
-               ReferencedContainer = "container:GeoTrackingExample.xcodeproj">
+               BuildableName = "Historia.app"
+               BlueprintName = "Historia"
+               ReferencedContainer = "container:Historia.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,9 +45,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E16665F023F6986F001B415F"
-            BuildableName = "GeoTrackingExample.app"
-            BlueprintName = "GeoTrackingExample"
-            ReferencedContainer = "container:GeoTrackingExample.xcodeproj">
+            BuildableName = "Historia.app"
+            BlueprintName = "Historia"
+            ReferencedContainer = "container:Historia.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -61,9 +61,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E16665F023F6986F001B415F"
-            BuildableName = "GeoTrackingExample.app"
-            BlueprintName = "GeoTrackingExample"
-            ReferencedContainer = "container:GeoTrackingExample.xcodeproj">
+            BuildableName = "Historia.app"
+            BlueprintName = "Historia"
+            ReferencedContainer = "container:Historia.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

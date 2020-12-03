@@ -2,7 +2,7 @@
 See LICENSE folder for this sample’s licensing information.
 
 Abstract:
-Parser to import ARGeoAnchors from GPX files.
+Parser to import ARGeoAnchors from      .
 */
 
 import ARKit

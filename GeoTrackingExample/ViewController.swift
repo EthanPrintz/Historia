@@ -10,13 +10,39 @@ import RealityKit
 import ARKit
 import MapKit
 import Photos
+import GoogleMapsTileOverlay
+
+struct PhotoMarker {
+    var name: String
+    var latitude: Double
+    var longitude: Double
+    var angle: Double
+}
+
+struct AudioMarker {
+    var name: String
+    var latitude: Double
+    var longitude: Double
+    var angle: Double
+}
+
+let photoMarkers  =  [
+    PhotoMarker(name:"AbolitionistPl", latitude: 40.692861, longitude: -73.986306, angle: 34),
+    PhotoMarker(name:"GallatinPl", latitude: 40.691014, longitude: -73.986240, angle: 108),
+    PhotoMarker(name:"GoldSt", latitude: 40.692106, longitude: -73.983442, angle:3),
+    PhotoMarker(name:"Darna", latitude: 40.687066, longitude: -73.993732, angle: 0)
+]
+
+let audioMarkers  =  [
+    AudioMarker(name:"AbolitionistPl", latitude: 40.692860, longitude: -73.986307, angle: 15),
+]
 
 class ViewController: UIViewController, ARSessionDelegate, CLLocationManagerDelegate, MKMapViewDelegate {
     
     @IBOutlet var arView: ARView!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var toastLabel: UILabel!
-    @IBOutlet weak var undoButton: UIButton!
+//    @IBOutlet weak var undoButton: UIButton!
     @IBOutlet weak var trackingStateLabel: UILabel!
     
     let coachingOverlay = ARCoachingOverlayView()
@@ -57,11 +83,18 @@ class ViewController: UIViewController, ARSessionDelegate, CLLocationManagerDele
         // Set this view controller as the MKMapView delegate.
         mapView.delegate = self
         
+        // Generate custom overlay for MapView
+        addCustomOverlay()
+        
         // Disable automatic configuration and set up geo tracking
         arView.automaticallyConfigureSession = false
                 
         // Run a new AR Session.
         restartSession()
+        
+        // Load Reality Composer scene
+//        let Experience = loadRealityComposerScene(filename: "Experience", fileExtension: "rcproject", sceneName: "Markers")
+//        let PhotoMarker = Experience.loadRequest();
                 
         // Add tap gesture recognizers
         arView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapOnARView(_:))))
@@ -86,80 +119,82 @@ class ViewController: UIViewController, ARSessionDelegate, CLLocationManagerDele
     }
     
     // MARK: - User Interaction
-    @IBAction func menuButtonTapped(_ sender: UIButton) {
-        presentAdditionalActions(sender)
-    }
+//    @IBAction func menuButtonTapped(_ sender: UIButton) {
+//        presentAdditionalActions(sender)
+//    }
     
     // Responds to a user tap on the AR view.
     @objc
     func handleTapOnARView(_ sender: UITapGestureRecognizer) {
-        let point = sender.location(in: view)
+//        let point = sender.location(in: view)
+        showToast("AR Tap")
         
         // Perform ARKit raycast on tap location
-        if let result = arView.raycast(from: point, allowing: .estimatedPlane, alignment: .any).first {
-            addGeoAnchor(at: result.worldTransform.translation)
-        } else {
-            showToast("No raycast result.\nTry pointing at a different area\nor move closer to a surface.")
-        }
+//        if let result = arView.raycast(from: point, allowing: .estimatedPlane, alignment: .any).first {
+//            addGeoAnchor(at: result.worldTransform.translation)
+//        } else {
+//            showToast("No raycast result.\nTry pointing at a different area\nor move closer to a surface.")
+//        }
     }
     
     // Responds to a user tap on the map view.
     @objc
     func handleTapOnMapView(_ sender: UITapGestureRecognizer) {
-        let point = sender.location(in: mapView)
-        let location = mapView.convert(point, toCoordinateFrom: mapView)
-        addGeoAnchor(at: location)
+        showToast("Map Tap!")
+//        let point = sender.location(in: mapView)
+//        let location = mapView.convert(point, toCoordinateFrom: mapView)
+//        addGeoAnchor(at: location)
     }
     
     // Removes the most recent geo anchor.
-    @IBAction func undoButtonTapped(_ sender: Any) {
-        guard let lastGeoAnchor = geoAnchors.last else {
-            showToast("Nothing to undo")
-            return
-        }
-        
-        // Remove geo anchor from the scene.
-        arView.session.remove(anchor: lastGeoAnchor.geoAnchor)
-        
-        // Remove map overlay
-        mapView.removeOverlay(lastGeoAnchor.mapOverlay)
-        
-        // Remove the element from the collection.
-        geoAnchors.removeLast()
-        
-        showToast("Removed last added anchor")
-    }
+//    @IBAction func undoButtonTapped(_ sender: Any) {
+//        guard let lastGeoAnchor = geoAnchors.last else {
+//            showToast("Nothing to undo")
+//            return
+//        }
+//
+//        // Remove geo anchor from the scene.
+//        arView.session.remove(anchor: lastGeoAnchor.geoAnchor)
+//
+//        // Remove map overlay
+//        mapView.removeOverlay(lastGeoAnchor.mapOverlay)
+//
+//        // Remove the element from the collection.
+//        geoAnchors.removeLast()
+//
+//        showToast("Removed last added anchor")
+//    }
     
     // MARK: - Methods
     
     // Presents the available actions when the user presses the menu button.
-    func presentAdditionalActions(_ sender: UIButton) {
-        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        actionSheet.popoverPresentationController?.sourceView = sender
-        actionSheet.popoverPresentationController?.sourceRect = sender.bounds
-        actionSheet.addAction(UIAlertAction(title: "Reset Session", style: .destructive, handler: { (_) in
-            self.restartSession()
-        }))
-        actionSheet.addAction(UIAlertAction(title: "Load Anchors …", style: .default, handler: { (_) in
-            self.showGPXFiles()
-        }))
-        actionSheet.addAction(UIAlertAction(title: "Save Anchors …", style: .default, handler: { (_) in
-            self.saveAnchors()
-        }))
-        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-        present(actionSheet, animated: true)
-    }
+//    func presentAdditionalActions(_ sender: UIButton) {
+//        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+//        actionSheet.popoverPresentationController?.sourceView = sender
+//        actionSheet.popoverPresentationController?.sourceRect = sender.bounds
+//        actionSheet.addAction(UIAlertAction(title: "Reset Session", style: .destructive, handler: { (_) in
+//            self.restartSession()
+//        }))
+//        actionSheet.addAction(UIAlertAction(title: "Load Anchors …", style: .default, handler: { (_) in
+//            self.showGPXFiles()
+//        }))
+//        actionSheet.addAction(UIAlertAction(title: "Save Anchors …", style: .default, handler: { (_) in
+//            self.saveAnchors()
+//        }))
+//        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+//        present(actionSheet, animated: true)
+//    }
     
     // Calls into the function that saves any user-created geo anchors to a GPX file.
-    func saveAnchors() {
-        let geoAnchors = currentAnchors.compactMap({ $0 as? ARGeoAnchor })
-        guard !geoAnchors.isEmpty else {
-                alertUser(withTitle: "No geo anchors", message: "There are no geo anchors to save.")
-            return
-        }
-        
-        saveAnchorsAsGPXFile(geoAnchors)
-    }
+//    func saveAnchors() {
+//        let geoAnchors = currentAnchors.compactMap({ $0 as? ARGeoAnchor })
+//        guard !geoAnchors.isEmpty else {
+//                alertUser(withTitle: "No geo anchors", message: "There are no geo anchors to save.")
+//            return
+//        }
+//
+//        saveAnchorsAsGPXFile(geoAnchors)
+//    }
 
     func restartSession() {
         // Check geo-tracking location-based availability.
@@ -285,6 +320,11 @@ class ViewController: UIViewController, ARSessionDelegate, CLLocationManagerDele
         // In localized state, show geo tracking accuracy
         if geoTrackingStatus.state == .localized {
             text += ", Accuracy: \(geoTrackingStatus.accuracy.description)"
+            
+            for marker in photoMarkers {
+                print("\(marker.latitude) : \(marker.longitude)")
+                addGeoAnchor(at: CLLocationCoordinate2D(latitude: marker.latitude, longitude: marker.longitude))
+            }
         } else {
             // Otherwise show details why geo tracking couldn't localize (yet)
             switch geoTrackingStatus.stateReason {
@@ -326,6 +366,31 @@ class ViewController: UIViewController, ARSessionDelegate, CLLocationManagerDele
             anchorOverlayView.lineWidth = 2
             return anchorOverlayView
         }
-        return MKOverlayRenderer()
+        
+        if let tileOverlay = overlay as? MKTileOverlay {
+            return MKTileOverlayRenderer(tileOverlay: tileOverlay)
+        }
+        return MKOverlayRenderer(overlay: overlay)
+//        return MKOverlayRenderer()
     }
+    
+    // MARK: - Utilities
+    // From https://github.com/thepeaklab/GoogleMapsTileOverlay
+    private func addCustomOverlay() {
+        print("Adding overlay")
+        guard let jsonURL = Bundle.main.url(forResource: "MapStyle", withExtension: "json") else {
+            print("Could not find map style")
+            return
+        }
+
+        do {
+            let gmTileOverlay = try GoogleMapsTileOverlay(jsonURL: jsonURL)
+            gmTileOverlay.canReplaceMapContent = true
+            mapView.addOverlay(gmTileOverlay, level: .aboveLabels)
+        } catch let error {
+            print(error.localizedDescription)
+        }
+    }
+
 }
+

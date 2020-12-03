@@ -17,12 +17,12 @@ extension ViewController: ARCoachingOverlayViewDelegate {
     
     func coachingOverlayViewWillActivate(_ coachingOverlayView: ARCoachingOverlayView) {
         mapView.isUserInteractionEnabled = false
-        undoButton.isEnabled = false
+//        undoButton.isEnabled = false
     }
 
     func coachingOverlayViewDidDeactivate(_ coachingOverlayView: ARCoachingOverlayView) {
         mapView.isUserInteractionEnabled = true
-        undoButton.isEnabled = true
+//        undoButton.isEnabled = true
     }
 
     func coachingOverlayViewDidRequestSessionReset(_ coachingOverlayView: ARCoachingOverlayView) {
