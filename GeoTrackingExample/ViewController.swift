@@ -350,7 +350,7 @@ class ViewController: UIViewController, ARSessionDelegate, CLLocationManagerDele
         
         // Update map area
         let camera = MKMapCamera(lookingAtCenter: location.coordinate,
-                                 fromDistance: CLLocationDistance(250),
+                                 fromDistance: CLLocationDistance(750),
                                  pitch: 0,
                                  heading: mapView.camera.heading)
         mapView.setCamera(camera, animated: false)

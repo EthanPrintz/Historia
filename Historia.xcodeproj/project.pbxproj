@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BB8FC35F25794487001D196B /* PhotoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8FC35E25794487001D196B /* PhotoDetailViewController.swift */; };
 		BBAECDC82565CE450028684D /* GoogleMapsTileOverlay in Frameworks */ = {isa = PBXBuildFile; productRef = BBAECDC72565CE450028684D /* GoogleMapsTileOverlay */; };
 		BBB190F325672B9500DE6779 /* MapStyle.json in Resources */ = {isa = PBXBuildFile; fileRef = BBAECDCA2565CFEB0028684D /* MapStyle.json */; };
 		BBB190F525672B9900DE6779 /* Experience.rcproject in Sources */ = {isa = PBXBuildFile; fileRef = BBE41E362565A1170069598A /* Experience.rcproject */; };
@@ -24,9 +25,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0095D1F5CE88A3E76098BA28 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		0C98B1E08EFB84D67C6C36E6 /* SampleCode.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = SampleCode.xcconfig; path = Configuration/SampleCode.xcconfig; sourceTree = "<group>"; };
-		1A0245E08A44E0A40C55F271 /* LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		BB8FC35E25794487001D196B /* PhotoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDetailViewController.swift; sourceTree = "<group>"; };
 		BBAECDCA2565CFEB0028684D /* MapStyle.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = MapStyle.json; sourceTree = "<group>"; };
 		BBE41E362565A1170069598A /* Experience.rcproject */ = {isa = PBXFileReference; lastKnownFileType = file.rcproject; path = Experience.rcproject; sourceTree = "<group>"; };
 		E110381C24054CD10027DC8A /* GPXExporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPXExporter.swift; sourceTree = "<group>"; };
@@ -56,30 +55,11 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		7084FB7133E98759AB68CD3F /* LICENSE */ = {
-			isa = PBXGroup;
-			children = (
-				1A0245E08A44E0A40C55F271 /* LICENSE.txt */,
-			);
-			path = LICENSE;
-			sourceTree = "<group>";
-		};
-		BA3FEFA550A36EA2D050F60B /* Configuration */ = {
-			isa = PBXGroup;
-			children = (
-				0C98B1E08EFB84D67C6C36E6 /* SampleCode.xcconfig */,
-			);
-			name = Configuration;
-			sourceTree = "<group>";
-		};
 		E16665E823F6986F001B415F = {
 			isa = PBXGroup;
 			children = (
-				0095D1F5CE88A3E76098BA28 /* README.md */,
 				E16665F323F6986F001B415F /* GeoTrackingExample */,
 				E16665F223F6986F001B415F /* Products */,
-				BA3FEFA550A36EA2D050F60B /* Configuration */,
-				7084FB7133E98759AB68CD3F /* LICENSE */,
 			);
 			sourceTree = "<group>";
 		};
@@ -98,6 +78,7 @@
 				E16665F823F6986F001B415F /* ViewController.swift */,
 				E182A57623FD88A20052D70C /* ViewController+CoachingOverlay.swift */,
 				E1103820240552F20027DC8A /* ViewController+LoadSaveAnchors.swift */,
+				BB8FC35E25794487001D196B /* PhotoDetailViewController.swift */,
 				E182A57823FD8B160052D70C /* Utilities.swift */,
 				E110381C24054CD10027DC8A /* GPXExporter.swift */,
 				E110381E24054D720027DC8A /* GPXParser.swift */,
@@ -207,6 +188,7 @@
 				BBB190F525672B9900DE6779 /* Experience.rcproject in Sources */,
 				E182A57923FD8B160052D70C /* Utilities.swift in Sources */,
 				E110381D24054CD10027DC8A /* GPXExporter.swift in Sources */,
+				BB8FC35F25794487001D196B /* PhotoDetailViewController.swift in Sources */,
 				E16665F523F6986F001B415F /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -235,7 +217,6 @@
 /* Begin XCBuildConfiguration section */
 		E166660323F69870001B415F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0C98B1E08EFB84D67C6C36E6 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -297,7 +278,6 @@
 		};
 		E166660423F69870001B415F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0C98B1E08EFB84D67C6C36E6 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -353,7 +333,6 @@
 		};
 		E166660623F69870001B415F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0C98B1E08EFB84D67C6C36E6 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -377,7 +356,6 @@
 		};
 		E166660723F69870001B415F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0C98B1E08EFB84D67C6C36E6 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

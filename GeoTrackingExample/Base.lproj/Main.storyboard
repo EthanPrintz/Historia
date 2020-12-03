@@ -11,7 +11,7 @@
         <!--View Controller-->
         <scene sceneID="tXr-a1-R10">
             <objects>
-                <viewController id="BV1-FR-VrT" customClass="ViewController" customModule="GeoTrackingExample" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BV1-FR-VrT" customClass="ViewController" customModule="Historia" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="U0K-SW-4ec">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -20,24 +20,23 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <subviews>
                                     <arView multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="peZ-tj-t0u">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="627"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="672"/>
                                     </arView>
                                     <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7Ka-BJ-4C0">
-                                        <rect key="frame" x="0.0" y="627" width="414" height="269"/>
+                                        <rect key="frame" x="0.0" y="672" width="414" height="224"/>
                                     </mapView>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="peZ-tj-t0u" firstAttribute="height" secondItem="c3H-r6-GWH" secondAttribute="height" multiplier="0.7" id="yu9-jr-G1S"/>
+                                    <constraint firstItem="peZ-tj-t0u" firstAttribute="height" secondItem="c3H-r6-GWH" secondAttribute="height" multiplier="0.75" id="yu9-jr-G1S"/>
                                 </constraints>
                             </stackView>
-                            <label hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.75" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Toast" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ak3-Cx-CrA">
+                            <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Toast" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ak3-Cx-CrA">
                                 <rect key="frame" x="172" y="440.5" width="70" height="25"/>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="A39-Cp-OAp"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="25" id="iYk-UB-o5i"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" name="Georgia-Bold" family="Georgia" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                                 <userDefinedRuntimeAttributes>
@@ -46,14 +45,14 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.75" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j8v-dI-hzq">
-                                <rect key="frame" x="20" y="64" width="300" height="25"/>
-                                <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" highlighted="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j8v-dI-hzq">
+                                <rect key="frame" x="20" y="615.5" width="300" height="25"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="300" id="6NL-GD-9DU"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="25" id="W3d-2V-2yG"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" name="Georgia-Bold" family="Georgia" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                                 <userDefinedRuntimeAttributes>
@@ -71,9 +70,9 @@
                             <constraint firstItem="ak3-Cx-CrA" firstAttribute="centerX" secondItem="Gq6-LJ-821" secondAttribute="centerX" id="b4F-zP-dDz"/>
                             <constraint firstItem="j8v-dI-hzq" firstAttribute="leading" secondItem="Gq6-LJ-821" secondAttribute="leading" constant="20" id="cn8-zp-HRd"/>
                             <constraint firstItem="c3H-r6-GWH" firstAttribute="top" secondItem="U0K-SW-4ec" secondAttribute="top" id="gyL-jg-yPU"/>
-                            <constraint firstItem="j8v-dI-hzq" firstAttribute="top" secondItem="Gq6-LJ-821" secondAttribute="top" constant="20" id="pbI-6M-FQo"/>
                             <constraint firstAttribute="trailing" secondItem="c3H-r6-GWH" secondAttribute="trailing" id="tKE-UQ-tOt"/>
                             <constraint firstAttribute="bottom" secondItem="c3H-r6-GWH" secondAttribute="bottom" id="waw-a6-TiK"/>
+                            <constraint firstItem="ak3-Cx-CrA" firstAttribute="top" secondItem="j8v-dI-hzq" secondAttribute="bottom" constant="-200" id="y0R-gW-VZH"/>
                         </constraints>
                     </view>
                     <connections>
@@ -123,7 +122,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5H7-8x-kwg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="922" y="134"/>
+            <point key="canvasLocation" x="864" y="138"/>
         </scene>
     </scenes>
     <resources>
