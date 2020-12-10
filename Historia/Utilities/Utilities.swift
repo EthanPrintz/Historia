@@ -30,29 +30,57 @@ extension simd_float4x4 {
 }
 
 extension Entity {
-    static func placemarkEntity(for arAnchor: ARAnchor) -> AnchorEntity {
+    static func placemarkEntity(for arAnchor: ARAnchor, name: String, type: String, angle: Int) -> AnchorEntity {
         // Create base anchor to attatch entities to
         let placemarkAnchor = AnchorEntity(anchor: arAnchor)
         
         // Load Reality Composer Markers
         let rcAnchor = try! Experience.loadMarkers()
-        let photoMarker = rcAnchor.photoPodium!
-        let height = photoMarker.visualBounds(relativeTo: nil).extents.y
-        // Transform marker down towards the ground
-        photoMarker.position.y = -height*1.2
-        // Add marker to anchor
-        placemarkAnchor.addChild(photoMarker)
         
-        // Generate photo plane geometry
-        let mesh: MeshResource = .generatePlane(width: 0.8, depth: 0.3, cornerRadius: 0.05)
-        // Generate photo plane material
-        var texture = SimpleMaterial()
-        texture.baseColor = try! .texture(.load(named: "texture"))
-        texture.tintColor = UIColor.white
-        let photoEntity = ModelEntity(mesh: mesh, materials: [texture])
-        photoEntity.transform = Transform(pitch: .pi/4, yaw: .pi/2, roll: 0)
-        // Add photo entity to anchor
-        placemarkAnchor.addChild(photoEntity)
+        // Add photo marker
+        if(type == "photo"){
+            let photoMarker = rcAnchor.photoPodium!
+            let height = photoMarker.visualBounds(relativeTo: nil).extents.y
+            // Transform marker down towards the ground
+            photoMarker.position.y = -height*1.2
+            // Add marker to anchor
+            placemarkAnchor.addChild(photoMarker)
+            
+            // Generate photo plane geometry
+            let mesh: MeshResource = .generatePlane(width: 0.8, depth: 0.3, cornerRadius: 0.05)
+            // Generate photo plane material
+            var texture = SimpleMaterial()
+            texture.baseColor = try! .texture(.load(named: "texture"))
+            texture.tintColor = UIColor.white
+            let photoEntity = ModelEntity(mesh: mesh, materials: [texture])
+            photoEntity.transform = Transform(pitch: .pi/4, yaw: .pi/2, roll: 0)
+            let scale = SIMD3<Float>(x: 1, y: 1, z: 1)
+            let rotation = simd_quatf(angle: .pi/4, axis: SIMD3(x: 1, y: 0, z: 0)) + simd_quatf(angle: .pi/2, axis: SIMD3(x: 0, y: 1, z: 0))
+            let translation = SIMD3<Float>(x: 1, y: 0, z: 0)
+            photoEntity.transform = Transform(scale: scale, rotation: rotation, translation: translation)
+            // Add photo entity to anchor
+            placemarkAnchor.addChild(photoEntity)
+        }
+        
+        // Add audio marker
+        else if(type == "audio"){
+            let audioMarker = rcAnchor.speakerPole!
+            let height = audioMarker.visualBounds(relativeTo: nil).extents.y
+            // Transform marker down towards the ground
+            audioMarker.position.y = -height
+            // Add marker to anchor
+            placemarkAnchor.addChild(audioMarker)
+        }
+        
+        // Add info marker
+        else if(type == "info"){
+            let infoMarker = rcAnchor.infoBoard!
+            let height = infoMarker.visualBounds(relativeTo: nil).extents.y
+            // Transform marker down towards the ground
+            infoMarker.position.y = -height
+            // Add marker to anchor
+            placemarkAnchor.addChild(infoMarker)
+        }
         
         // Return generated anchor
         return placemarkAnchor
@@ -84,7 +112,7 @@ extension ViewController {
     func showToast(_ message: String, duration: TimeInterval = 2) {
         DispatchQueue.main.async {
             self.toastLabel.numberOfLines = message.components(separatedBy: "\n").count
-            self.toastLabel.text = message
+            self.toastLabel.text = message + self.toastLabel.text! ?? ""
             self.toastLabel.isHidden = false
             
             // use tag to tell if label has been updated

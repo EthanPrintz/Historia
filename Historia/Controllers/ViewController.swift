@@ -12,28 +12,19 @@ import MapKit
 import Photos
 import GoogleMapsTileOverlay
 
-struct PhotoMarker {
+struct Marker {
     var name: String
+    var type: String
     var latitude: Double
     var longitude: Double
-    var angle: Double
+    var angle: Int
 }
-
-struct AudioMarker {
-    var name: String
-    var latitude: Double
-    var longitude: Double
-    var angle: Double
-}
-
-let photoMarkers  =  [
-    PhotoMarker(name: "111Lawrence", latitude: 40.69270997971054, longitude: -73.98618571934942, angle: 0),
-    PhotoMarker(name: "116Lawrence", latitude: 40.692798705576735, longitude: -73.9863043651857, angle: 0)
+let markers  =  [
+    Marker(name: "111Lawrence", type: "photo", latitude: 40.69270997971054, longitude: -73.98618571934942, angle: 0),
+    Marker(name: "116Lawrence", type: "photo", latitude: 40.692798705576735, longitude: -73.9863043651857, angle: 0),
+    Marker(name: "111LawrenceA", type: "audio", latitude: 40.69269411087816,  longitude: -73.98618563769263, angle: 0)
 ]
 
-let audioMarkers  =  [
-    PhotoMarker(name: "111Lawrence", latitude: 40.69288866484105, longitude: -73.98616621731001, angle: 0),
-]
 
 class ViewController: UIViewController, ARSessionDelegate, CLLocationManagerDelegate, MKMapViewDelegate {
     
@@ -184,23 +175,23 @@ class ViewController: UIViewController, ARSessionDelegate, CLLocationManagerDele
         showToast("Running new AR session")
     }
     
-    func addGeoAnchor(at worldPosition: SIMD3<Float>) {
+    func addGeoAnchor(name: String, at worldPosition: SIMD3<Float>) {
         arView.session.getGeoLocation(forPoint: worldPosition) { (location, altitude, error) in
             if let error = error {
                 self.alertUser(withTitle: "Cannot add geo anchor",
                                message: "An error occurred while translating ARKit coordinates to geo coordinates: \(error.localizedDescription)")
                 return
             }
-            self.addGeoAnchor(at: location, altitude: altitude)
+            self.addGeoAnchor(name: name, at: location, altitude: altitude)
         }
     }
     
-    func addGeoAnchor(at location: CLLocationCoordinate2D, altitude: CLLocationDistance? = nil) {
+    func addGeoAnchor(name: String, at location: CLLocationCoordinate2D, altitude: CLLocationDistance? = nil) {
         var geoAnchor: ARGeoAnchor!
         if let altitude = altitude {
-            geoAnchor = ARGeoAnchor(coordinate: location, altitude: altitude)
+            geoAnchor = ARGeoAnchor(name: name, coordinate: location, altitude: altitude)
         } else {
-            geoAnchor = ARGeoAnchor(coordinate: location)
+            geoAnchor = ARGeoAnchor(name: name, coordinate: location)
         }
         
         addGeoAnchor(geoAnchor)
@@ -234,10 +225,17 @@ class ViewController: UIViewController, ARSessionDelegate, CLLocationManagerDele
     // MARK: - ARSessionDelegate
     func session(_ session: ARSession, didAdd anchors: [ARAnchor]) {
         for geoAnchor in anchors.compactMap({ $0 as? ARGeoAnchor }) {
+            // Get anchor info from array with name
+            let geoAnchorIndex = markers.firstIndex(where: { (Marker) -> Bool in Marker.name == geoAnchor.name})!
+            let geoAnchorType = markers[geoAnchorIndex].type
+            let geoAnchorAngle = markers[geoAnchorIndex].angle
+            
             // Effect a spatial-based delay to avoid blocking the main thread.
             DispatchQueue.main.asyncAfter(deadline: .now() + (distanceFromDevice(geoAnchor.coordinate) / 10)) {
                 // Add an AR placemark visualization for the geo anchor.
-                self.arView.scene.addAnchor(Entity.placemarkEntity(for: geoAnchor))
+                print(geoAnchor.name ?? "No name")
+                self.showToast(geoAnchor.name ?? "No name")
+                self.arView.scene.addAnchor(Entity.placemarkEntity(for: geoAnchor, name: geoAnchor.name!, type: geoAnchorType, angle: geoAnchorAngle))
             }
             // Add a visualization for the geo anchor in the map view.
             let anchorIndicator = AnchorIndicator(center: geoAnchor.coordinate)
@@ -280,9 +278,9 @@ class ViewController: UIViewController, ARSessionDelegate, CLLocationManagerDele
             // If this is the first localization of the app session
             if(!previouslyLocalized){
                 previouslyLocalized = true
-                for marker in photoMarkers {
+                for marker in markers {
                     print("\(marker.latitude) : \(marker.longitude)")
-                    addGeoAnchor(at: CLLocationCoordinate2D(latitude: marker.latitude, longitude: marker.longitude))
+                    addGeoAnchor(name: marker.name, at: CLLocationCoordinate2D(latitude: marker.latitude, longitude: marker.longitude))
                 }
             }
         } else {

@@ -26,11 +26,21 @@ class HistoriaAnchor: ExtendedGeoAnchor{
     var angle: Int
     var marker: ARGeoAnchor
     
+    // Init without preconfigured anchor
     init(name: String, coordinate: CLLocationCoordinate2D, type: String, angle: Int){
         self.name = name
         self.coordinate = coordinate
         self.type = type
         self.angle = angle
         self.marker = ARGeoAnchor(coordinate: coordinate)
+    }
+    
+    // Init with preconfigured anchor
+    init(name: String, coordinate: CLLocationCoordinate2D, type: String, angle: Int, anchor: ARGeoAnchor) {
+        self.name = name
+        self.coordinate = coordinate
+        self.type = type
+        self.angle = angle
+        self.marker = anchor
     }
 }
