@@ -43,21 +43,20 @@ extension Entity {
             let height = photoMarker.visualBounds(relativeTo: nil).extents.y
             // Transform marker down towards the ground
             photoMarker.position.y = -height*1.2
+            photoMarker.name = name
             // Add marker to anchor
             placemarkAnchor.addChild(photoMarker)
             
             // Generate photo plane geometry
-            let mesh: MeshResource = .generatePlane(width: 0.8, depth: 0.3, cornerRadius: 0.05)
+            let mesh: MeshResource = .generatePlane(width: 0.75, depth: 0.45, cornerRadius: 0.02)
             // Generate photo plane material
             var texture = SimpleMaterial()
-            texture.baseColor = try! .texture(.load(named: "texture"))
-            texture.tintColor = UIColor.white
+            texture.baseColor = try! .texture(.load(named: name))
+            texture.tintColor = UIColor.white.withAlphaComponent(0.99)
             let photoEntity = ModelEntity(mesh: mesh, materials: [texture])
-            photoEntity.transform = Transform(pitch: .pi/4, yaw: .pi/2, roll: 0)
-            let scale = SIMD3<Float>(x: 1, y: 1, z: 1)
-            let rotation = simd_quatf(angle: .pi/4, axis: SIMD3(x: 1, y: 0, z: 0)) + simd_quatf(angle: .pi/2, axis: SIMD3(x: 0, y: 1, z: 0))
-            let translation = SIMD3<Float>(x: 1, y: 0, z: 0)
-            photoEntity.transform = Transform(scale: scale, rotation: rotation, translation: translation)
+            photoEntity.transform = Transform(pitch: .pi*3/18, yaw: .pi/2, roll: 0)
+            photoEntity.transform.translation += SIMD3<Float>(x: 0, y: -0.36, z: -0.95)
+            photoEntity.name = name
             // Add photo entity to anchor
             placemarkAnchor.addChild(photoEntity)
         }
@@ -68,6 +67,7 @@ extension Entity {
             let height = audioMarker.visualBounds(relativeTo: nil).extents.y
             // Transform marker down towards the ground
             audioMarker.position.y = -height
+            audioMarker.name = name
             // Add marker to anchor
             placemarkAnchor.addChild(audioMarker)
         }
@@ -82,6 +82,12 @@ extension Entity {
             placemarkAnchor.addChild(infoMarker)
         }
         
+        let anchorIndex = markers.firstIndex(where: { (marker) -> Bool in marker.name == name})!
+        let anchorAngle = markers[anchorIndex].angle
+
+        // Rotates anchor to match world placement, (0 = E>W, 90 = S>N)
+        placemarkAnchor.transform = Transform(pitch: 0, yaw: deg2rad(anchorAngle), roll: 0)
+        
         // Return generated anchor
         return placemarkAnchor
     }
@@ -94,6 +100,10 @@ extension Entity {
             self.move(to: transform, relativeTo: self.parent, duration: duration, timingFunction: .easeInOut)
         }
     }
+}
+
+func deg2rad(_ number: Int) -> Float {
+    return Float(number) * .pi / 180
 }
 
 extension ViewController {
@@ -112,7 +122,8 @@ extension ViewController {
     func showToast(_ message: String, duration: TimeInterval = 2) {
         DispatchQueue.main.async {
             self.toastLabel.numberOfLines = message.components(separatedBy: "\n").count
-            self.toastLabel.text = message + self.toastLabel.text! ?? ""
+            self.toastLabel.font = newYorkFont
+            self.toastLabel.text = message
             self.toastLabel.isHidden = false
             
             // use tag to tell if label has been updated
@@ -183,3 +194,34 @@ extension ARCamera.TrackingState.Reason {
         }
     }
 }
+
+// From https://mic.st/blog/how-to-use-new-ios-13-system-fonts-like-new-york/
+var newYorkFont: UIFont {
+/// 1. Initialize a system font with the preferred size and weight and access its `fontDescriptor` property.
+      let descriptor = UIFont.systemFont(ofSize: 18,
+                                         weight: .semibold).fontDescriptor
+
+/// 2. Use the new iOS13 `withDesign` to get the `UIFontDescriptor` for a serif version of your system font. The size is derived from your initial `UIFont` so set it to `0.0`
+      if let serif = descriptor.withDesign(.serif) {
+        return UIFont(descriptor: serif, size: 0.0)
+      }
+
+/// 3. Initialize a font with the serif descriptor of your system font. Again: use `0.0` as `size` parameter to prevent overriding the initial size we did set above.
+      return UIFont(descriptor: descriptor, size: 0.0)
+}
+
+// From https://mic.st/blog/how-to-use-new-ios-13-system-fonts-like-new-york/
+var newYorkFontSmall: UIFont {
+/// 1. Initialize a system font with the preferred size and weight and access its `fontDescriptor` property.
+      let descriptor = UIFont.systemFont(ofSize: 15,
+                                         weight: .semibold).fontDescriptor
+
+/// 2. Use the new iOS13 `withDesign` to get the `UIFontDescriptor` for a serif version of your system font. The size is derived from your initial `UIFont` so set it to `0.0`
+      if let serif = descriptor.withDesign(.serif) {
+        return UIFont(descriptor: serif, size: 0.0)
+      }
+
+/// 3. Initialize a font with the serif descriptor of your system font. Again: use `0.0` as `size` parameter to prevent overriding the initial size we did set above.
+      return UIFont(descriptor: descriptor, size: 0.0)
+}
+

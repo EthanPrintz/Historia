@@ -12,31 +12,20 @@ import MapKit
 import Photos
 import GoogleMapsTileOverlay
 
-struct Marker {
-    var name: String
-    var type: String
-    var latitude: Double
-    var longitude: Double
-    var angle: Int
-}
-let markers  =  [
-    Marker(name: "111Lawrence", type: "photo", latitude: 40.69270997971054, longitude: -73.98618571934942, angle: 0),
-    Marker(name: "116Lawrence", type: "photo", latitude: 40.692798705576735, longitude: -73.9863043651857, angle: 0),
-    Marker(name: "111LawrenceA", type: "audio", latitude: 40.69269411087816,  longitude: -73.98618563769263, angle: 0)
-]
-
-
 class ViewController: UIViewController, ARSessionDelegate, CLLocationManagerDelegate, MKMapViewDelegate {
     
     @IBOutlet var arView: ARView!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var toastLabel: UILabel!
+    @IBOutlet weak var trackingState: UILabel!
     @IBOutlet weak var infoButton: UIButton!
     @IBOutlet weak var trackingStateLabel: UILabel!
     
     let coachingOverlay = ARCoachingOverlayView()
     
     let locationManager = CLLocationManager()
+    
+    let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
     
     var currentAnchors: [ARAnchor] {
         return arView.session.currentFrame?.anchors ?? []
@@ -86,6 +75,9 @@ class ViewController: UIViewController, ARSessionDelegate, CLLocationManagerDele
         // Add tap gesture recognizers
         arView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapOnARView(_:))))
         mapView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapOnMapView(_:))))
+        
+        // Modify fonts
+        trackingState.font = newYorkFont
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -108,21 +100,36 @@ class ViewController: UIViewController, ARSessionDelegate, CLLocationManagerDele
     // MARK: - User Interaction
     // Responds to a user tap on the AR view.
     @objc
-    func handleTapOnARView(_ sender: UITapGestureRecognizer) {//        let point = sender.location(in: view)
+    func handleTapOnARView(_ sender: UITapGestureRecognizer) {
         // Detect tap on entity
         // Extended from https://stackoverflow.com/questions/56736645/hittest-prints-ar-entity-name-even-when-i-am-not-tapping-on-it
         let tapLocation: CGPoint = sender.location(in: arView)
         let result: [CollisionCastHit] = arView.hitTest(tapLocation)
         guard let hitTest: CollisionCastHit = result.first
-        else {
-            showToast("Not on entity")
-            return
-        }
+        else { return }
         
         let entity: Entity = hitTest.entity
-        showToast("Name: \(entity.name)")
+        // Get data about entity
+        let geoAnchorIndex = markers.firstIndex(where: { (Marker) -> Bool in Marker.name == entity.name})!
+        let geoAnchorType = markers[geoAnchorIndex].type
+        // If of type photo
+        if(geoAnchorType == "photo"){
+            // Open photo view controller
+            if let photoDetailVC = storyboard?.instantiateViewController(withIdentifier: "PhotoDetailViewController") as? PhotoDetailViewController {
+                photoDetailVC.name = entity.name
+                navigationController?.pushViewController(photoDetailVC, animated: true)
+                self.present(photoDetailVC, animated: true)
+            }
+        }
+        // If of type audio
+        else if(geoAnchorType == "audio"){
+            // Open audio view controller
+        }
+        
+        
         
         // Perform ARKit raycast on tap location
+//        let point = sender.location(in: view)
 //        if let result = arView.raycast(from: point, allowing: .estimatedPlane, alignment: .any).first {
 //            addGeoAnchor(at: result.worldTransform.translation)
 //        } else {

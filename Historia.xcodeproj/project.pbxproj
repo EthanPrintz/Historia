@@ -14,6 +14,7 @@
 		BBAECDC82565CE450028684D /* GoogleMapsTileOverlay in Frameworks */ = {isa = PBXBuildFile; productRef = BBAECDC72565CE450028684D /* GoogleMapsTileOverlay */; };
 		BBB190F325672B9500DE6779 /* MapStyle.json in Resources */ = {isa = PBXBuildFile; fileRef = BBAECDCA2565CFEB0028684D /* MapStyle.json */; };
 		BBB190F525672B9900DE6779 /* Experience.rcproject in Sources */ = {isa = PBXBuildFile; fileRef = BBE41E362565A1170069598A /* Experience.rcproject */; };
+		BBB3007D2581BC9700F38E91 /* Markers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB3007C2581BC9700F38E91 /* Markers.swift */; };
 		E110381D24054CD10027DC8A /* GPXExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E110381C24054CD10027DC8A /* GPXExporter.swift */; };
 		E110381F24054D730027DC8A /* GPXParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E110381E24054D720027DC8A /* GPXParser.swift */; };
 		E1103821240552F20027DC8A /* ViewController+LoadSaveAnchors.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1103820240552F20027DC8A /* ViewController+LoadSaveAnchors.swift */; };
@@ -31,6 +32,7 @@
 		BB8FC36625795DC3001D196B /* texture.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = texture.jpg; sourceTree = "<group>"; };
 		BB908E4425812F31007E2EBC /* HistoriaGeoAnchor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoriaGeoAnchor.swift; sourceTree = "<group>"; };
 		BBAECDCA2565CFEB0028684D /* MapStyle.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = MapStyle.json; sourceTree = "<group>"; };
+		BBB3007C2581BC9700F38E91 /* Markers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Markers.swift; sourceTree = "<group>"; };
 		BBE41E362565A1170069598A /* Experience.rcproject */ = {isa = PBXFileReference; lastKnownFileType = file.rcproject; path = Experience.rcproject; sourceTree = "<group>"; };
 		E110381C24054CD10027DC8A /* GPXExporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPXExporter.swift; sourceTree = "<group>"; };
 		E110381E24054D720027DC8A /* GPXParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPXParser.swift; sourceTree = "<group>"; };
@@ -62,11 +64,12 @@
 		BB72B6342580306000724833 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				BBAECDCA2565CFEB0028684D /* MapStyle.json */,
+				BBB3007C2581BC9700F38E91 /* Markers.swift */,
 				E16665FD23F69870001B415F /* Assets.xcassets */,
 				BBE41E362565A1170069598A /* Experience.rcproject */,
 				E166660223F69870001B415F /* Info.plist */,
 				BB8FC36625795DC3001D196B /* texture.jpg */,
+				BBAECDCA2565CFEB0028684D /* MapStyle.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -97,7 +100,6 @@
 				E182A57823FD8B160052D70C /* Utilities.swift */,
 				E110381C24054CD10027DC8A /* GPXExporter.swift */,
 				E110381E24054D720027DC8A /* GPXParser.swift */,
-				E1F282972412709F000184D7 /* GeoAnchorWithAssociatedData.swift */,
 				BB908E4425812F31007E2EBC /* HistoriaGeoAnchor.swift */,
 			);
 			path = Utilities;
@@ -135,6 +137,7 @@
 				BB908E3B25803CCE007E2EBC /* Views */,
 				BB72B6342580306000724833 /* Resources */,
 				BB908E412581248B007E2EBC /* Utilities */,
+				E1F282972412709F000184D7 /* GeoAnchorWithAssociatedData.swift */,
 			);
 			path = Historia;
 			sourceTree = "<group>";
@@ -224,6 +227,7 @@
 				E1F282982412709F000184D7 /* GeoAnchorWithAssociatedData.swift in Sources */,
 				E182A57723FD88A30052D70C /* ViewController+CoachingOverlay.swift in Sources */,
 				E1103821240552F20027DC8A /* ViewController+LoadSaveAnchors.swift in Sources */,
+				BBB3007D2581BC9700F38E91 /* Markers.swift in Sources */,
 				E110381F24054D730027DC8A /* GPXParser.swift in Sources */,
 				BBB190F525672B9900DE6779 /* Experience.rcproject in Sources */,
 				E182A57923FD8B160052D70C /* Utilities.swift in Sources */,
